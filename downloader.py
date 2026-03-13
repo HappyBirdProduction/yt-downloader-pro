@@ -16,7 +16,7 @@ class YouTubeDownloaderApp(ctk.CTk):
 
         # Basic Window Configuration
         self.title("YT Downloader Pro")
-        self.geometry("600x650")
+        self.geometry("600x950")
         self.resizable(False, False)
 
         # Variables
@@ -28,8 +28,10 @@ class YouTubeDownloaderApp(ctk.CTk):
     def create_widgets(self):
         # Title and Logo
         try:
-            # Using the absolute path provided by the user for the logo
-            img = Image.open(r"K:\KLIENCI\BLACKBOX\AIBLACKBOX logo_pl.png")
+            # Try to load logo from same directory as script
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            logo_path = os.path.join(script_dir, "logo.png")
+            img = Image.open(logo_path)
             # Proportional scaling
             ratio = 250 / img.width
             new_h = int(img.height * ratio)
@@ -152,7 +154,7 @@ class YouTubeDownloaderApp(ctk.CTk):
                 self.after(0, lambda: self.update_ui_after_check(info.get('title'), res_values))
 
         except Exception as e:
-            self.after(0, lambda: messagebox.showerror("Error", f"Failed to fetch information:\n{str(e)}"))
+            self.after(0, lambda e=e: messagebox.showerror("Error", f"Failed to fetch information:\n{str(e)}"))
         finally:
             self.after(0, lambda: self.btn_check.configure(state="normal", text="Check"))
 
@@ -230,7 +232,7 @@ class YouTubeDownloaderApp(ctk.CTk):
             self.after(0, lambda: self.lbl_status.configure(text="Ready"))
 
         except Exception as e:
-            self.after(0, lambda: messagebox.showerror("Error", f"An error occurred:\n{str(e)}"))
+            self.after(0, lambda e=e: messagebox.showerror("Error", f"An error occurred:\n{str(e)}"))
         finally:
             self.after(0, lambda: self.btn_download.configure(state="normal", text="DOWNLOAD"))
 
